@@ -114,8 +114,3 @@ class DictClient:
 
     def hitory(self):
         pass
-
-
-if __name__ == '__main__':
-    c = DictClient('192.168.232.128', 12345)
-    c.request()
