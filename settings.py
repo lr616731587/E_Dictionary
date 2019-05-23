@@ -1,10 +1,17 @@
 """
-数据库设置
+系统设置
 """
+# 数据库设置
 Database = 'mysql'
 HOST = '*'
 USERNAME = '*'
 PASSWORD = '*'
+
+# 服务器设置
+SHOST = '*'
+PORT = *
+ADD = (SHOST, PORT)
+
 ut_db = "create table if not exists user(id int primary key auto_increment,\
                             username varchar(16) unique not null, password varchar(32) not null );"
 c_db = "create database if not exists EDICT charset utf8;"

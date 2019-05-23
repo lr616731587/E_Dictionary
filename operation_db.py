@@ -3,7 +3,6 @@ import hashlib
 import warnings
 
 from e_dictionary.settings import *
-from e_dictionary.insert_words import *
 
 
 warnings.filterwarnings('ignore')
@@ -21,7 +20,6 @@ class DataBase:
             Database,
             charset='utf8'
         )
-        InsertWord().insert_word()
 
     def create_cursor(self):
         """
@@ -130,6 +128,3 @@ class DataBase:
         return True
 
 
-if __name__ == '__main__':
-    d = DataBase()
-    d.create_cursor()

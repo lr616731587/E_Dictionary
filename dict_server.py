@@ -1,12 +1,13 @@
-import os, sys, time, signal
+"""
+客户端
+"""
+import sys
+import signal
+
 from multiprocessing import Process
 from socket import *
 from e_dictionary.operation_db import *
-
-
-HOST = '0.0.0.0'
-PORT = 12345
-ADD = (HOST, PORT)
+from e_dictionary.settings import *
 
 
 class Server:
@@ -120,6 +121,3 @@ class Server:
             c.send('用户信息不匹配'.encode())
 
 
-if __name__ == '__main__':
-    s = Server()
-    s.main()

@@ -1,7 +1,8 @@
 """
 服务端
 """
-import os, hashlib, getpass
+import getpass
+
 from socket import *
 
 
@@ -115,7 +116,3 @@ class DictClient:
     def hitory(self):
         pass
 
-
-if __name__ == '__main__':
-    c = DictClient('192.168.232.128', 12345)
-    c.request()
