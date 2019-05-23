@@ -9,7 +9,7 @@ PASSWORD = '*'
 
 # 服务器设置
 SHOST = '*'
-PORT = *
+PORT = 12345
 ADD = (SHOST, PORT)
 
 ut_db = "create table if not exists user(id int primary key auto_increment,\
