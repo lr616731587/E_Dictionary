@@ -1,5 +1,5 @@
 """
-服务端
+客户端
 """
 import os, hashlib, getpass
 from socket import *
