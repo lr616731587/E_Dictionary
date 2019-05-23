@@ -2,9 +2,9 @@
 数据库设置
 """
 Database = 'mysql'
-HOST = '192.168.232.128'
-USERNAME = 'zuozuo'
-PASSWORD = 'qwe123'
+HOST = '*'
+USERNAME = '*'
+PASSWORD = '*'
 ut_db = "create table if not exists user(id int primary key auto_increment,\
                             username varchar(16) unique not null, password varchar(32) not null );"
 c_db = "create database if not exists EDICT charset utf8;"
