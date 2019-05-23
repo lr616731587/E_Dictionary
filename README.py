@@ -60,23 +60,7 @@
              重置  C name  tell
 
 
-cookie ：
-        import  getpass
-	getpass.getpass()
-	功能: 隐藏输入内容
-	返回值： 输入的内容字符串
 
-cookie ：
-  import hashlib
-
-  生成加密对象 参数为 "盐"
-  hash = hashlib.md5(("Levi"+"the-sat").encode())
-
-  对密码进行算法加密
-  hash.update(passwd.encode())
-
-  获取加密后的密码字串
-  hash.hexdigest()
 
 """
 
