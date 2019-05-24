@@ -8,8 +8,8 @@ USERNAME = '*'
 PASSWORD = '*'
 
 # 服务器设置
-SHOST = '*'
-PORT = 12345
+SHOST = '0.0.0.0'
+PORT = *
 ADD = (SHOST, PORT)
 
 ut_db = "create table if not exists user(id int primary key auto_increment,\
@@ -17,6 +17,6 @@ ut_db = "create table if not exists user(id int primary key auto_increment,\
 c_db = "create database if not exists EDICT charset utf8;"
 u_db = "use EDICT"
 ht_db = "create table if not exists history(id int primary key auto_increment,\
-                                                username varchar(16) not null ,word varchar(32), time datetime);"
+                                                username varchar(16) not null ,word varchar(32), time varchar(32) );"
 w_db = "create table if not exists word_list (id int primary key auto_increment,\
                                                 word varchar(32) not null, ex text );"

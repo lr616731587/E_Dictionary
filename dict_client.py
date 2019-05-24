@@ -13,6 +13,10 @@ class DictClient:
         self.client.connect(self.ip)
 
     def request(self):
+        """
+        一级主界面
+        :return:
+        """
         while True:
             print("""
             ============================================
@@ -26,11 +30,17 @@ class DictClient:
                 self.login()
 
             elif data == '3':
-                break
+                self.client.send(b'E')
+                print('谢谢使用')
+                return
             else:
                 print('请输入正确命令')
 
     def registered(self):
+        """
+        注册账号请求
+        :return:
+        """
         while True:
             username = input('用户名:')
             password = getpass.getpass()
@@ -51,7 +61,11 @@ class DictClient:
                 return
 
     def login(self):
-        i = 0
+        """
+        登录请求
+        :return:
+        """
+        i = 0  # 密码错误计数
         while True:
             username = input('User:')
             password = getpass.getpass()
@@ -78,6 +92,10 @@ class DictClient:
                     print(data)
 
     def reset(self):
+        """
+        发送重置密码请求
+        :return:
+        """
         username = input('请输入需要重置的账号')
         tell = input('请输入绑定的手机号')
         msg = 'C {} {}'.format(username, tell)
@@ -93,26 +111,56 @@ class DictClient:
             print(data)
             self.request()
 
-    def find_word(self):
-        pass
+    def find_word(self, username):
+        """
+        发送查询单词请求
+        :param username:
+        :return:
+        """
+        while True:
+            word = input('请输入要查找的单词')
+            if word == '##':
+                print("退出查询")
+                break
+            msg = 'Q {} {}'.format(word, username)
+            self.client.send(msg.encode())
+            data = self.client.recv(2048).decode()
+            print(word, ':', data)
 
     def second_view(self, user):
+        """
+        二级界面
+        :param user:
+        :return:
+        """
         while True:
             print("""
             ===================================user:{}==
-            1.查单词            2.历史记录         3.注销
+            1.查单词          2.历史记录          3.注销
             ============================================
             """.format(user))
             data = input('CMD')
             if data == '1':
-                self.find_word()
+                self.find_word(user)
             elif data == '2':
-                self.hitory()
+                self.history(user)
             elif data == '3':
                 return
             else:
                 print('请输入正确命令')
 
-    def hitory(self):
-        pass
+    def history(self, username):
+        """
+        发送查看历史记录请求
+        :param username:
+        :return:
+        """
+        msg = 'H {}'.format(username)
+        self.client.send(msg.encode())
+        while True:
+            data = self.client.recv(1024).decode()
+            if data == '##':
+                break
+            print(data)
+
 

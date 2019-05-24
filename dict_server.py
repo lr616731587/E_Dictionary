@@ -54,24 +54,52 @@ class Server:
         while True:
             data = c.recv(1024).decode()
             msg = data.split(' ')
-            if not data:
+            if not data or msg[0] == 'E':
                 print('{}断开连接'.format(c.getpeername()))
-                break
+                c.close()
+                sys.exit('客户端退出')
             elif msg[0] == 'R':
+                print('{}执行注册操作'.format(c.getpeername()))
                 self.registered(c, msg[1], msg[2], msg[3])
-                print('{}执行注册操作'.format(c.getpeername))
             elif msg[0] == 'L':
+                print('{}执行登录操作'.format(c.getpeername()))
                 self.login(c, msg[1], msg[2])
-                print('{}执行登录操作'.format(c.getpeername))
             elif msg[0] == 'C':
+                print('{}执行重置密码操作'.format(c.getpeername()))
                 self.rest(c, msg[1], msg[2])
-                print('{}执行重置密码操作'.format(c.getpeername))
 
-    def find_history(self):
-        pass
+    def find_history(self, c, username):
+        """
+        查询历史记录
+        :param c:
+        :param username:
+        :return:
+        """
+        h = self.db.find_history(username)
+        if not h:
+            c.send('暂无历史记录'.encode())
+            return
+        for i in h:
+            msg = '%s\t%s\t%s' % i
+            time.sleep(0.1)
+            c.send(msg.encode())
+        time.sleep(0.1)
+        c.send(b'##')  # 发送终止条件
 
-    def find_words(self):
-        pass
+    def find_words(self, c, word, username):
+        """
+        查询单词
+        :param c:
+        :param word:
+        :param username:
+        :return:
+        """
+        self.db.insert_history(username, word)
+        mean = self.db.find_word(word)
+        if mean:
+            c.send(mean[2].encode())
+        else:
+            c.send('单词未找到'.encode())
 
     def login(self, c, username, password):
         """
@@ -84,6 +112,7 @@ class Server:
         l = self.db.login(username, password)
         if l == 'ok':
             c.send('ok'.encode())
+            self.find_all(c)
         else:
             c.send(l.encode())
 
@@ -120,4 +149,19 @@ class Server:
         else:
             c.send('用户信息不匹配'.encode())
 
+    def find_all(self, c):
+        """
+        处理查询请求
+        :param c:
+        :return:
+        """
+        while True:
+            re = c.recv(1024).decode()
+            data = re.split(' ')
+            if data[0] == '##':
+                return
+            elif data[0] == 'Q':
+                self.find_words(c, data[1], data[2])
+            elif data[0] == 'H':
+                self.find_history(c, data[1])
 
